@@ -44,10 +44,6 @@ docker build -t portafolio-frontend .
 docker run -p 8080:80 portafolio-frontend
 ```
 
-### Backend
-
-(Agrega aquí instrucciones si dockerizas el backend)
-
 ## Variables de entorno
 
 - `.env` en backend para la base de datos PostgreSQL
