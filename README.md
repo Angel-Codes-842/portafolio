@@ -51,8 +51,3 @@ docker run -p 8080:80 portafolio-frontend
 ## Variables de entorno
 
 - `.env` en backend para la base de datos PostgreSQL
-
-## Autor
-
-Angel Gómez  
-[Tu LinkedIn o email]

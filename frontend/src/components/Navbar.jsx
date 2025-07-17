@@ -1,4 +1,4 @@
-import { FaDownload, FaMoon, FaSun, FaHome, FaProjectDiagram, FaUser, FaEnvelope } from "react-icons/fa";
+import { FaDownload, FaMoon, FaSun, FaHome, FaProjectDiagram, FaUser, FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
 const navLinks = [
@@ -6,6 +6,11 @@ const navLinks = [
   { href: "#projects", label: "Proyectos", icon: <FaProjectDiagram /> },
   { href: "#about", label: "Sobre mí", icon: <FaUser /> },
   { href: "#contact", label: "Contacto", icon: <FaEnvelope /> },
+];
+
+const socialLinks = [
+  { href: "https://github.com/Angel-Codes-842", icon: <FaGithub />, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/angel-g%C3%B3mez-b72836209/", icon: <FaLinkedin />, label: "LinkedIn" },
 ];
 
 const Navbar = () => {
@@ -31,6 +36,20 @@ const Navbar = () => {
               <li key={link.href}>
                 <a href={link.href} className="hover:text-accent transition text-textMain dark:text-dark">
                   {link.label}
+                </a>
+              </li>
+            ))}
+            {socialLinks.map(link => (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-accent hover:text-accent2 dark:text-accent2 dark:hover:text-accent font-bold transition ml-2"
+                  title={link.label}
+                >
+                  {link.icon}
+                  <span className="ml-1 hidden lg:inline">{link.label}</span>
                 </a>
               </li>
             ))}
@@ -63,6 +82,20 @@ const Navbar = () => {
           {navLinks.map(link => (
             <li key={link.href}>
               <a href={link.href} className="flex flex-col items-center text-accent dark:text-accent2 hover:text-accent2 dark:hover:text-accent font-semibold text-xs">
+                {link.icon}
+                <span className="text-[10px] mt-1">{link.label}</span>
+              </a>
+            </li>
+          ))}
+          {socialLinks.map(link => (
+            <li key={link.label}>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center text-accent dark:text-accent2 hover:text-accent2 dark:hover:text-accent font-semibold text-xs"
+                title={link.label}
+              >
                 {link.icon}
                 <span className="text-[10px] mt-1">{link.label}</span>
               </a>
