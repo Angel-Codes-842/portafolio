@@ -1,0 +1,6 @@
+{
+    "include": ["app", "main.py"],
+    "exclude": ["venv", "__pycache__"],
+    "pythonVersion": "3.8",
+    "pythonPlatform": "Windows"
+}
