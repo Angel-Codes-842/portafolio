@@ -4,6 +4,7 @@ from typing import List
 from app.database.connection import get_db
 from app.models.models import Project
 from pydantic import BaseModel
+from datetime import datetime
 
 router = APIRouter()
 
@@ -25,7 +26,7 @@ class ProjectResponse(BaseModel):
     live_url: str | None = None
     technologies: str | None = None
     is_featured: bool
-    created_at: str
+    created_at: datetime
 
     class Config:
         from_attributes = True

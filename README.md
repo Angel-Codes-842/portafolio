@@ -34,16 +34,6 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-## Docker
-
-### Frontend
-
-```bash
-cd frontend
-docker build -t portafolio-frontend .
-docker run -p 8080:80 portafolio-frontend
-```
-
 ## Variables de entorno
 
 - `.env` en backend para la base de datos PostgreSQL
