@@ -33,8 +33,8 @@ const Navbar = () => {
   };
 
   return (
-    <>
-      {/* Navbar para desktop */}
+    <>,
+      {/* Navbar para desktop */},
       <nav className="hidden md:block bg-darkSection/90 dark:bg-white/80 backdrop-blur shadow-md fixed w-full z-10 font-sans border-b border-card dark:border-gray-200 px-2">
         <div className="container mx-auto px-0 sm:px-4 py-3 flex flex-row justify-between items-center">
           <span className="font-bold text-2xl text-accent tracking-tight dark:text-accent2">Angel Gómez - Desarrollador</span>
@@ -85,10 +85,10 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Navbar para mobile */}
+      {/* Navbar para mobile */},
       <nav className="fixed bottom-0 left-0 w-full flex md:hidden bg-darkSection dark:bg-gray-100 border-t border-card dark:border-gray-200 z-20">
-        <ul className="flex flex-row justify-around items-center w-full py-2">
-          {/* Botones de acciones rápidas (CV, Social, Tema) */}
+        <ul className="flex flex-row items-center justify-center w-full py-2 space-x-4"> {/* Modificado para usar justify-center y space-x-4 */},
+          {/* Botones de acciones rápidas (CV, Social, Tema) */},
            <li>
             <a
               href="/cv-angel.pdf"
@@ -99,7 +99,7 @@ const Navbar = () => {
               title="Descargar CV"
             >
               <FaDownload size={20} />
-              {/* <span className="text-[10px] mt-1">CV</span> */}
+              {/* <span className="text-[10px] mt-1">CV</span> */},
             </a>
           </li>
           {socialLinks.map(link => (
@@ -112,7 +112,7 @@ const Navbar = () => {
                 title={link.label}
               >
                 {link.icon}
-                {/* <span className="text-[10px] mt-1">{link.label}</span> */}
+                {/* <span className="text-[10px] mt-1">{link.label}</span> */},
               </a>
             </li>
           ))}
@@ -123,11 +123,11 @@ const Navbar = () => {
               title={dark ? "Modo claro" : "Modo oscuro"}
             >
               {dark ? <FaSun size={20} /> : <FaMoon size={20} />}
-              {/* <span className="text-[10px] mt-1">{dark ? "Claro" : "Oscuro"}</span> */}
+              {/* <span className="text-[10px] mt-1">{dark ? "Claro" : "Oscuro"}</span> */},
             </button>
           </li>
 
-          {/* Icono de Hamburguesa (para abrir el menú de navegación principal) */}
+          {/* Icono de Hamburguesa (para abrir el menú de navegación principal) */},
           <li>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -135,16 +135,16 @@ const Navbar = () => {
               title="Menu"
             >
               <FaBars size={20} />
-              {/* <span className="text-[10px] mt-1">Menú</span> */}
+              {/* <span className="text-[10px] mt-1">Menú</span> */},
             </button>
           </li>
         </ul>
       </nav>
 
-      {/* Menú desplegable (inicialmente oculto) */}
+      {/* Menú desplegable (inicialmente oculto) */},
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 z-10 md:hidden">
-          <div className="fixed bottom-0 left-0 w-full h-1/2 bg-darkSection dark:bg-gray-100 shadow-lg overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 z-10 md:hidden" onClick={closeMenu}> {/* Añadido onClick para cerrar el menú al tocar el overlay */},
+          <div className="fixed bottom-0 left-0 w-full h-1/2 bg-darkSection dark:bg-gray-100 shadow-lg overflow-y-auto" onClick={(e) => e.stopPropagation()}> {/* Añadido stopPropagation para evitar que el clic en el menú cierre el overlay */},
              <ul className="flex flex-col items-center justify-center h-full space-y-6 py-8">
               {navLinks.map(link => (
                 <li key={link.href}>
