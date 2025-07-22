@@ -15,6 +15,8 @@ export default {
         textSecondary: "#a1a1aa",// Texto secundario
         accent: "#38bdf8",       // Acento (sky-400)
         accent2: "#818cf8",      // Acento secundario (indigo-400)
+        primary: "#38bdf8",      // Usando accent para primary
+        secondary: "#818cf8",    // Usando accent2 para secondary
       },
       fontFamily: {
         sans: ['Montserrat', 'ui-sans-serif', 'system-ui'],
