@@ -28,6 +28,7 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Navbar para desktop */}
       <nav className="hidden md:block bg-darkSection/90 dark:bg-white/80 backdrop-blur shadow-md fixed w-full z-10 font-sans border-b border-card dark:border-gray-200 px-2">
         <div className="container mx-auto px-0 sm:px-4 py-3 flex flex-row justify-between items-center">
           <span className="font-bold text-2xl text-accent tracking-tight dark:text-accent2">Angel Gómez - Desarrollador</span>
@@ -77,8 +78,11 @@ const Navbar = () => {
           </ul>
         </div>
       </nav>
+
+      {/* Navbar para mobile */}
       <nav className="fixed bottom-0 left-0 w-full flex md:hidden bg-darkSection dark:bg-gray-100 border-t border-card dark:border-gray-200 z-20">
         <ul className="flex flex-row justify-around items-center w-full py-2">
+          {/* Enlaces de navegación principales */}
           {navLinks.map(link => (
             <li key={link.href}>
               <a href={link.href} className="flex flex-col items-center text-accent dark:text-accent2 hover:text-accent2 dark:hover:text-accent font-semibold text-xs">
@@ -87,6 +91,8 @@ const Navbar = () => {
               </a>
             </li>
           ))}
+
+          {/* Botones de acciones rápidas (CV, Social, Tema) */}
           {socialLinks.map(link => (
             <li key={link.label}>
               <a
@@ -97,7 +103,7 @@ const Navbar = () => {
                 title={link.label}
               >
                 {link.icon}
-                <span className="text-[10px] mt-1">{link.label}</span>
+                {/* <span className="text-[10px] mt-1">{link.label}</span> */}
               </a>
             </li>
           ))}
@@ -107,8 +113,8 @@ const Navbar = () => {
               className="flex flex-col items-center text-accent dark:text-accent2 hover:text-accent2 dark:hover:text-accent font-semibold text-xs"
               title={dark ? "Modo claro" : "Modo oscuro"}
             >
-              {dark ? <FaSun /> : <FaMoon />}
-              <span className="text-[10px] mt-1">{dark ? "Claro" : "Oscuro"}</span>
+              {dark ? <FaSun size={20} /> : <FaMoon size={20} />}
+              {/* <span className="text-[10px] mt-1">{dark ? "Claro" : "Oscuro"}</span> */}
             </button>
           </li>
           <li>
@@ -119,8 +125,8 @@ const Navbar = () => {
               rel="noopener noreferrer"
               className="flex flex-col items-center text-accent dark:text-accent2 hover:text-accent2 dark:hover:text-accent font-semibold text-xs"
             >
-              <FaDownload />
-              <span className="text-[10px] mt-1">CV</span>
+              <FaDownload size={20} />
+              {/* <span className="text-[10px] mt-1">CV</span> */}
             </a>
           </li>
         </ul>
