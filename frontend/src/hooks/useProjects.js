@@ -5,7 +5,7 @@ export default function useProjects() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/projects/")
+    fetch("https://portafolio-kvy2.onrender.com/api/projects/")
       .then(res => res.json())
       .then(data => {
         setProjects(data);
