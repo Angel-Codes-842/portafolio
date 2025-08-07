@@ -10,9 +10,14 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "https://portafolio-1-12b5.onrender.com",  # Tu frontend
+        "http://localhost:3000",  # Para desarrollo local
+        "http://localhost:5173",  # Vite dev server
+        "http://127.0.0.1:3000",
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
 
