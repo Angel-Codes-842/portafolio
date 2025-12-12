@@ -4,7 +4,7 @@ Portafolio personal con estética retro-tech 8-bit minimalista, construido con R
 
 ## 🚀 Demo
 
-[Ver portafolio en vivo](#) *(agregar URL cuando esté desplegado)*
+[Ver portafolio en vivo](https://portafolio-rkbv.onrender.com)
 
 ## 🛠️ Tecnologías
 
