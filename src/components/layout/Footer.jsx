@@ -5,15 +5,15 @@
  */
 
 const socialLinks = [
-  { 
-    id: 'github', 
-    label: 'GitHub', 
+  {
+    id: 'github',
+    label: 'GitHub',
     href: 'https://github.com/Angel-Codes-842',
     icon: '⌘'
   },
-  { 
-    id: 'linkedin', 
-    label: 'LinkedIn', 
+  {
+    id: 'linkedin',
+    label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/angel-gómez-b72836209/',
     icon: '◈'
   },
@@ -23,14 +23,14 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white py-8">
+    <footer className="relative py-8 z-10 bg-black/50 backdrop-blur-md border-t border-white/10 mt-16">
       {/* Pixelated horizontal separator */}
       <div className="max-w-5xl mx-auto px-4">
         <div className="pixel-line mb-8" aria-hidden="true" />
-        
+
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright text */}
-          <p className="font-mono text-sm text-carbon">
+          <p className="font-mono text-sm text-white/60 text-center md:text-left">
             © {currentYear} Ángel Gómez. Todos los derechos reservados.
           </p>
 
@@ -42,7 +42,7 @@ export default function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-sm text-carbon hover:text-retro-blue hover-jump transition-none px-2 py-2 min-h-[44px] flex items-center"
+                className="font-mono text-sm text-white/60 hover:text-retro-blue hover-jump transition-colors px-2 py-2 min-h-[44px] flex items-center"
                 aria-label={link.label}
               >
                 <span className="mr-1" aria-hidden="true">{link.icon}</span>

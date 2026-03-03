@@ -11,42 +11,42 @@ export default function About() {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section 
+    <section
       ref={ref}
-      id="about" 
-      className={`bg-white ${isVisible ? 'animate-crt' : 'opacity-0'}`}
+      id="about"
+      className={`relative py-16 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`}
     >
       <div className="section-container">
         <div className="max-w-3xl mx-auto space-y-8">
           {/* Section heading in terminal style */}
           <TerminalText prefix=">">
-            <span className="font-pixel text-2xl md:text-3xl text-carbon">
+            <span className="font-pixel text-2xl md:text-3xl text-white drop-shadow-[0_0_8px_rgba(39,103,245,0.3)]">
               Mi enfoque
             </span>
           </TerminalText>
 
           {/* Developer description */}
-          <div className="space-y-6 pl-6">
-            <p className="font-mono text-lg md:text-xl text-carbon leading-relaxed">
+          <div className="space-y-6 pl-6 glass-card p-6 md:p-8 rounded-lg mt-4 border-l-4 border-l-retro-blue">
+            <p className="font-mono text-lg md:text-xl text-white/80 leading-relaxed">
               Desarrollo experiencias web limpias y rápidas.
             </p>
-            <p className="font-mono text-lg md:text-xl text-carbon leading-relaxed">
+            <p className="font-mono text-lg md:text-xl text-white/80 leading-relaxed">
               Trabajo con React, Tailwind, Django, APIs, Postgresql y despliegues modernos.
             </p>
           </div>
 
           {/* Optional: Profile photo with pixelated frame */}
           <div className="flex justify-center pt-8">
-            <div className="pixel-border shadow-pixel p-1 bg-soft-gray">
-              <img 
+            <div className="pixel-border shadow-pixel p-2 glass-card bg-carbon/50 glow-hover rounded-full">
+              <img
                 src="/images/profile.png"
                 alt="Ángel Gómez - Profile"
-                className="w-48 h-48 md:w-56 md:h-56 grayscale"
+                className="w-48 h-48 md:w-56 md:h-56 grayscale hover:grayscale-0 transition-all duration-500 rounded-full object-cover"
                 onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.parentElement.innerHTML = `
-                    <div class="w-48 h-48 md:w-56 md:h-56 bg-carbon/10 flex items-center justify-center">
-                      <span class="font-pixel text-carbon/40 text-sm text-center px-4">[ foto ]</span>
+                    <div class="w-48 h-48 md:w-56 md:h-56 bg-white/5 flex items-center justify-center rounded-full">
+                      <span class="font-pixel text-white/40 text-sm text-center px-4">[ foto ]</span>
                     </div>
                   `;
                 }}

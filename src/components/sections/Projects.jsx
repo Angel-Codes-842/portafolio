@@ -12,17 +12,17 @@ export default function Projects() {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section 
+    <section
       ref={ref}
-      id="projects" 
-      className={`py-16 px-4 md:px-8 bg-white ${isVisible ? 'animate-crt' : 'opacity-0'}`}
+      id="projects"
+      className={`py-16 px-4 md:px-8 relative ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`}
     >
       <div className="max-w-5xl mx-auto">
         {/* Section title */}
-        <h2 className="font-pixel text-3xl md:text-4xl text-carbon mb-12 text-center">
+        <h2 className="font-pixel text-3xl md:text-4xl text-white mb-12 text-center drop-shadow-[0_0_8px_rgba(39,103,245,0.3)]">
           Proyectos
         </h2>
-        
+
         {/* Projects grid - 2 columns on desktop, 1 on mobile */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project) => (
