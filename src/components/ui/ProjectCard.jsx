@@ -1,7 +1,6 @@
 /**
  * ProjectCard Component
- * Cartridge-style card with pixelated border for displaying projects
- * Requirements: 4.2, 4.3, 4.4, 4.5
+ * Redesigned card with improved layout and visual polish
  */
 
 import { useState, useEffect } from 'react';
@@ -17,27 +16,33 @@ export default function ProjectCard({
   demoUrl,
   repoUrl
 }) {
-  // Support both single image and multiple images
   const imageList = images.length > 0 ? images : (image ? [image] : []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Auto-rotate images every 3 seconds if multiple images (only when lightbox is closed)
+  const goTo = (idx) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex(idx);
+      setIsTransitioning(false);
+    }, 200);
+  };
+
+  const nextImage = () => goTo((currentIndex + 1) % imageList.length);
+  const prevImage = () => goTo((currentIndex - 1 + imageList.length) % imageList.length);
+
+  // Auto-rotate
   useEffect(() => {
     if (imageList.length <= 1 || isLightboxOpen) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % imageList.length);
-    }, 3000);
-
+    const interval = setInterval(nextImage, 3500);
     return () => clearInterval(interval);
-  }, [imageList.length, isLightboxOpen]);
+  }, [imageList.length, isLightboxOpen, currentIndex]);
 
-  // Close lightbox on Escape key
+  // Escape key for lightbox
   useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') setIsLightboxOpen(false);
-    };
+    const handleEscape = (e) => { if (e.key === 'Escape') setIsLightboxOpen(false); };
     if (isLightboxOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
@@ -48,54 +53,76 @@ export default function ProjectCard({
     };
   }, [isLightboxOpen]);
 
-  const nextImage = () => setCurrentIndex((prev) => (prev + 1) % imageList.length);
-  const prevImage = () => setCurrentIndex((prev) => (prev - 1 + imageList.length) % imageList.length);
-
   return (
     <>
-      <div className="glass-card border-pixel shadow-pixel flex flex-col h-full relative group/card transition-all duration-500 hover:shadow-[0_0_30px_rgba(39,103,245,0.3)] hover:-translate-y-2 overflow-hidden">
-        {/* Animated top border glow */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-retro-blue to-transparent opacity-50 group-hover/card:opacity-100 transition-opacity duration-500" />
+      <div className="group/card relative flex flex-col h-full rounded-xl overflow-hidden border border-white/8 bg-[#0d0d0d] transition-all duration-500 hover:-translate-y-2 hover:border-retro-blue/40 hover:shadow-[0_8px_40px_rgba(39,103,245,0.18)]">
 
-        {/* 8-bit styled tab header */}
-        <div className="bg-carbon/90 backdrop-blur-sm text-white px-5 py-4 border-b border-white/10 flex items-center gap-3 relative z-10">
-          <div className="w-2 h-2 bg-retro-blue rounded-full absolute left-3 animate-pulse-slow" />
-          <h3 className="font-pixel text-xl truncate tracking-wide pl-2 relative z-10 drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">{title}</h3>
-        </div>
+        {/* Top accent line */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-retro-blue/60 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 z-10" />
 
-        {/* Project image carousel */}
-        <div className="aspect-video bg-black/60 overflow-hidden relative flex items-center justify-center group/img border-b border-white/10">
+        {/* Image area */}
+        <div className="relative overflow-hidden bg-black" style={{ aspectRatio: '16/9' }}>
           {imageList.length > 0 ? (
             <>
-              {/* Overlay for hover effect */}
-              <div className="absolute inset-0 bg-retro-blue/20 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 z-10 pointer-events-none mix-blend-overlay" />
-
               <img
-                key={`${title}-${currentIndex}`}
+                key={currentIndex}
                 src={imageList[currentIndex]}
-                alt={`${title} - ${currentIndex + 1}`}
-                className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-500 group-hover/img:scale-110 group-hover/img:rotate-1 cursor-pointer"
+                alt={`${title} screenshot ${currentIndex + 1}`}
+                className={`w-full h-full object-cover transition-all duration-500 group-hover/card:scale-[1.03] ${isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}
                 onClick={() => setIsLightboxOpen(true)}
+                style={{ cursor: 'zoom-in' }}
               />
+
+              {/* Dark gradient overlay at bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-transparent opacity-60 pointer-events-none" />
+
+              {/* Prev / Next arrows — visible on hover */}
+              {imageList.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/70 border border-white/10 text-white flex items-center justify-center opacity-0 group-hover/card:opacity-100 hover:bg-retro-blue/80 transition-all duration-200 z-20 backdrop-blur-sm"
+                    aria-label="Anterior"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/70 border border-white/10 text-white flex items-center justify-center opacity-0 group-hover/card:opacity-100 hover:bg-retro-blue/80 transition-all duration-200 z-20 backdrop-blur-sm"
+                    aria-label="Siguiente"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </>
+              )}
+
               {/* Expand button */}
               <button
                 onClick={() => setIsLightboxOpen(true)}
-                className="absolute top-3 right-3 bg-carbon/90 border border-white/20 text-white p-2.5 opacity-0 group-hover/img:opacity-100 transition-all duration-300 hover:bg-retro-blue hover:scale-110 z-20 rounded shadow-[0_0_10px_rgba(0,0,0,0.5)]"
-                aria-label="Ampliar imagen"
+                className="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/70 border border-white/10 text-white flex items-center justify-center opacity-0 group-hover/card:opacity-100 hover:bg-retro-blue/80 transition-all duration-200 z-20 backdrop-blur-sm"
+                aria-label="Ampliar"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
                 </svg>
               </button>
-              {/* Image indicators */}
+
+              {/* Dot indicators */}
               {imageList.length > 1 && (
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20 bg-carbon/80 px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
                   {imageList.map((_, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setCurrentIndex(idx)}
-                      className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${idx === currentIndex ? 'bg-retro-blue scale-125 shadow-[0_0_8px_rgba(39,103,245,0.8)]' : 'bg-white/40 hover:bg-white/70'
-                        }`}
+                      onClick={() => goTo(idx)}
+                      className={`rounded-full transition-all duration-300 ${
+                        idx === currentIndex
+                          ? 'w-5 h-1.5 bg-retro-blue shadow-[0_0_6px_rgba(39,103,245,0.9)]'
+                          : 'w-1.5 h-1.5 bg-white/30 hover:bg-white/60'
+                      }`}
                       aria-label={`Imagen ${idx + 1}`}
                     />
                   ))}
@@ -104,44 +131,51 @@ export default function ProjectCard({
             </>
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="font-pixel text-carbon text-center px-4">{title}</span>
+              <span className="font-pixel text-white/20 text-lg">{title}</span>
             </div>
           )}
         </div>
 
-        {/* Content area */}
-        <div className="p-6 space-y-5 flex-grow flex flex-col relative z-10 bg-gradient-to-b from-transparent to-black/20">
+        {/* Content */}
+        <div className="flex flex-col flex-grow p-5 gap-4">
+
+          {/* Title */}
+          <h3 className="font-pixel text-lg text-white leading-snug tracking-wide">
+            {title}
+          </h3>
+
           {/* Description */}
-          <p className="font-sans text-white/80 text-sm leading-relaxed flex-grow font-light">
+          <p className="font-sans text-white/55 text-sm leading-relaxed flex-grow">
             {description}
           </p>
 
-          {/* Tech stack with glowing pills */}
-          <div className="flex flex-wrap gap-2.5 pt-1">
+          {/* Tech stack */}
+          <div className="flex flex-wrap gap-2">
             {techStack.map((tech) => (
               <span
                 key={tech}
-                className="font-mono text-xs px-3 py-1.5 bg-carbon/80 border border-retro-blue/30 text-retro-blue/90 rounded-full flex items-center gap-2 shadow-[0_0_10px_rgba(39,103,245,0.1)] hover:bg-retro-blue/10 hover:border-retro-blue hover:text-white hover:shadow-[0_0_15px_rgba(39,103,245,0.4)] transition-all duration-300 relative group/tech overflow-hidden"
+                className="flex items-center gap-1.5 font-mono text-xs px-2.5 py-1 rounded-md bg-white/4 border border-white/8 text-white/60 hover:border-retro-blue/50 hover:text-retro-blue hover:bg-retro-blue/8 transition-all duration-200"
               >
-                <TechIcon tech={tech} className="w-3.5 h-3.5 relative z-10" />
-                <span className="relative z-10">{tech}</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/tech:animate-[typing_1s_ease-out_forwards]" />
+                <TechIcon tech={tech} className="w-3 h-3" />
+                {tech}
               </span>
             ))}
           </div>
 
-          {/* Links - modern action buttons */}
+          {/* Action buttons */}
           {(demoUrl || repoUrl) && (
-            <div className="flex flex-wrap gap-3 pt-3 border-t border-white/5 mt-auto">
+            <div className="flex gap-2.5 pt-1 border-t border-white/6">
               {demoUrl && (
                 <a
                   href={demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-sm font-medium text-white px-4 py-2 bg-retro-blue rounded-md shadow-[0_0_15px_rgba(39,103,245,0.4)] hover:bg-blue-600 hover:shadow-[0_0_20px_rgba(39,103,245,0.6)] hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
+                  className="flex items-center gap-1.5 font-mono text-xs font-medium px-4 py-2 rounded-lg bg-retro-blue text-white hover:bg-blue-500 hover:shadow-[0_0_16px_rgba(39,103,245,0.5)] transition-all duration-200"
                 >
-                  Visitar
-                  <span aria-hidden="true" className="text-white/70">↗</span>
+                  Ver demo
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
                 </a>
               )}
               {repoUrl && (
@@ -149,12 +183,12 @@ export default function ProjectCard({
                   href={repoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-sm font-medium text-white/90 px-4 py-2 bg-white/5 border border-white/10 rounded-md hover:bg-white/10 hover:border-white/30 hover:text-white hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
+                  className="flex items-center gap-1.5 font-mono text-xs font-medium px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 hover:border-white/25 hover:text-white transition-all duration-200"
                 >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                   </svg>
-                  Repo
+                  Código
                 </a>
               )}
             </div>
@@ -162,37 +196,51 @@ export default function ProjectCard({
         </div>
       </div>
 
-      {/* Lightbox Modal - rendered via portal to body */}
+      {/* Lightbox */}
       {isLightboxOpen && createPortal(
         <div
-          className="fixed inset-0 z-[9999] bg-carbon/95 flex items-center justify-center animate-fade-in"
+          className="fixed inset-0 z-[9999] bg-black/92 backdrop-blur-md flex items-center justify-center animate-fade-in"
           onClick={() => setIsLightboxOpen(false)}
         >
-          {/* Close button */}
-          <button
-            onClick={() => setIsLightboxOpen(false)}
-            className="absolute top-4 right-4 text-white font-pixel text-2xl hover:text-soft-gray z-10"
-            aria-label="Cerrar"
-          >
-            ✕
-          </button>
+          {/* Header */}
+          <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-5 py-4 bg-gradient-to-b from-black/80 to-transparent z-10">
+            <span className="font-pixel text-white/70 text-sm">{title}</span>
+            <div className="flex items-center gap-3">
+              {imageList.length > 1 && (
+                <span className="font-mono text-white/40 text-xs">{currentIndex + 1} / {imageList.length}</span>
+              )}
+              <button
+                onClick={() => setIsLightboxOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/10 border border-white/15 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                aria-label="Cerrar"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
 
-          {/* Navigation arrows */}
+          {/* Arrows */}
           {imageList.length > 1 && (
             <>
               <button
                 onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                className="absolute left-4 text-white font-pixel text-4xl hover:text-soft-gray z-10"
-                aria-label="Imagen anterior"
+                className="absolute left-4 w-10 h-10 rounded-full bg-white/10 border border-white/15 text-white flex items-center justify-center hover:bg-retro-blue/70 transition-all z-10"
+                aria-label="Anterior"
               >
-                ◀
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                className="absolute right-4 text-white font-pixel text-4xl hover:text-soft-gray z-10"
-                aria-label="Imagen siguiente"
+                className="absolute right-4 w-10 h-10 rounded-full bg-white/10 border border-white/15 text-white flex items-center justify-center hover:bg-retro-blue/70 transition-all z-10"
+                aria-label="Siguiente"
               >
-                ▶
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             </>
           )}
@@ -201,14 +249,25 @@ export default function ProjectCard({
           <img
             src={imageList[currentIndex]}
             alt={`${title} - ${currentIndex + 1}`}
-            className="max-w-[90vw] max-h-[85vh] object-contain animate-scale-in"
+            className="max-w-[88vw] max-h-[82vh] object-contain rounded-lg shadow-2xl animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           />
 
-          {/* Image counter */}
+          {/* Dot indicators */}
           {imageList.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white font-mono text-sm">
-              {currentIndex + 1} / {imageList.length}
+            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+              {imageList.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => { e.stopPropagation(); goTo(idx); }}
+                  className={`rounded-full transition-all duration-300 ${
+                    idx === currentIndex
+                      ? 'w-6 h-2 bg-retro-blue shadow-[0_0_8px_rgba(39,103,245,0.8)]'
+                      : 'w-2 h-2 bg-white/25 hover:bg-white/50'
+                  }`}
+                  aria-label={`Imagen ${idx + 1}`}
+                />
+              ))}
             </div>
           )}
         </div>,

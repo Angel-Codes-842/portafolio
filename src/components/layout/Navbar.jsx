@@ -38,16 +38,30 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card backdrop-blur-md border-b-0 border-white/5 animate-reveal-up">
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo / Name */}
+          {/* Logo */}
           <a
             href="#"
-            className="font-pixel text-2xl text-white hover:text-retro-blue transition-colors hover-jump glow-hover px-2 py-1 rounded"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className="group flex items-center gap-2.5 select-none"
+            aria-label="Inicio"
           >
-            AG
+            {/* SVG mark */}
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(39,103,245,0.8)]">
+              {/* Outer pixel border */}
+              <rect x="1" y="1" width="34" height="34" rx="6" fill="#0d0d0d" stroke="#2767F5" strokeWidth="1.5" />
+              {/* Inner glow bg */}
+              <rect x="4" y="4" width="28" height="28" rx="4" fill="rgba(39,103,245,0.07)" />
+              {/* Left bracket */}
+              <path d="M10 12 L7 18 L10 24" stroke="#2767F5" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" fill="none" />
+              {/* Right bracket */}
+              <path d="M26 12 L29 18 L26 24" stroke="#2767F5" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" fill="none" />
+              {/* AG letters */}
+              <text x="18" y="22" textAnchor="middle" fontFamily="'VT323', monospace" fontSize="13" fill="white" letterSpacing="1">AG</text>
+            </svg>
+            {/* Wordmark */}
+            <span className="font-pixel text-xl text-white group-hover:text-retro-blue transition-colors duration-300 leading-none">
+              angel<span className="text-retro-blue">.</span>dev
+            </span>
           </a>
 
           {/* Desktop Navigation */}
