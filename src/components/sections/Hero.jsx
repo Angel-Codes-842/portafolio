@@ -1,12 +1,12 @@
 /**
  * Hero Component
  * Main hero section with name, title, tagline, and CTA buttons
- * Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 7.5, 9.3
  */
 
 import BlinkingCursor from '../ui/BlinkingCursor';
 import PixelButton from '../ui/PixelButton';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
+import { profile } from '../../data/profile';
 
 export default function Hero() {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
@@ -46,13 +46,13 @@ export default function Hero() {
         </h1>
 
         {/* Title */}
-        <h2 className="font-pixel text-2xl md:text-3xl lg:text-4xl text-retro-blue mb-8 animate-reveal-up delay-200">
+        <h2 className="font-pixel text-2xl md:text-3xl lg:text-4xl text-retro-blue mb-3 animate-reveal-up delay-200">
           Full-Stack Developer
         </h2>
 
         {/* Tagline with blinking cursor */}
         <p className="font-pixel text-lg md:text-xl text-white/80 mb-12 max-w-2xl mx-auto animate-reveal-up delay-300">
-          Creo aplicaciones robustas y mantenibles utilizando tecnologías actuales.
+          Construyo sistemas web listos para producción.
           <BlinkingCursor />
         </p>
 
@@ -65,6 +65,15 @@ export default function Hero() {
             Contacto
           </PixelButton>
         </div>
+
+        <a
+          href={profile.cvUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block mt-8 font-mono text-sm text-white/50 hover:text-retro-blue transition-colors duration-300 animate-reveal-up delay-400"
+        >
+          ↓ Ver currículum
+        </a>
       </div>
     </section>
   );

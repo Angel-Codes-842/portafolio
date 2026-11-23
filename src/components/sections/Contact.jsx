@@ -6,6 +6,7 @@
 
 import TerminalText from '../ui/TerminalText';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
+import { profile } from '../../data/profile';
 
 export default function Contact() {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
@@ -36,39 +37,53 @@ export default function Contact() {
               ¡Trabajemos juntos!
             </h3>
 
-            <p className="font-mono text-base md:text-lg text-white/70 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+            <p className="font-mono text-base md:text-lg text-white/70 mb-3 max-w-2xl mx-auto font-light leading-relaxed">
               Actualmente estoy abierto a nuevas oportunidades de trabajo. Si tienes un proyecto en mente, una propuesta laboral o simplemente quieres saludar, ¡no dudes en escribirme!
+            </p>
+            <p className="font-mono text-xs text-white/40 mb-12">
+              {profile.location} · {profile.phone}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 flex-wrap">
               {/* Email */}
               <a
-                href="mailto:hernan17ayala@gmail.com"
+                href={`mailto:${profile.email}`}
                 className="flex items-center justify-center gap-3 font-mono text-white px-6 py-4 bg-retro-blue/10 border border-retro-blue/30 rounded-xl hover:bg-retro-blue hover:border-retro-blue hover:shadow-[0_0_20px_rgba(39,103,245,0.5)] transition-all duration-300 hover:-translate-y-1 flex-1 min-w-[280px] group"
               >
-                <span className="font-pixel text-2xl group-hover:scale-110 transition-transform">@</span>
+                <span className="font-pixel text-2xl group-hover:scale-110 transition-transform" aria-hidden="true">@</span>
                 <span className="font-medium tracking-wide text-sm">hernan17ayala@gmail.com</span>
+              </a>
+
+              {/* WhatsApp */}
+              <a
+                href={profile.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 font-mono text-white px-6 py-4 bg-[#25D366]/10 border border-[#25D366]/30 rounded-xl hover:bg-[#25D366] hover:border-[#25D366] hover:shadow-[0_0_20px_rgba(37,211,102,0.35)] transition-all duration-300 hover:-translate-y-1 flex-1 min-w-[180px] group"
+              >
+                <span className="font-pixel text-2xl group-hover:scale-110 transition-transform" aria-hidden="true">✆</span>
+                <span className="font-medium tracking-wide text-sm">WhatsApp</span>
               </a>
 
               {/* LinkedIn */}
               <a
-                href="https://www.linkedin.com/in/angel-gómez-b72836209/"
+                href={profile.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 font-mono text-white px-6 py-4 bg-[#0A66C2]/10 border border-[#0A66C2]/30 rounded-xl hover:bg-[#0A66C2] hover:border-[#0A66C2] hover:shadow-[0_0_20px_rgba(10,102,194,0.6)] transition-all duration-300 hover:-translate-y-1 flex-1 min-w-[200px] group"
               >
-                <span className="font-pixel text-2xl font-bold group-hover:scale-110 transition-transform">in</span>
+                <span className="font-pixel text-2xl font-bold group-hover:scale-110 transition-transform" aria-hidden="true">in</span>
                 <span className="font-medium tracking-wide">LinkedIn</span>
               </a>
 
               {/* GitHub */}
               <a
-                href="https://github.com/Angel-Codes-842"
+                href={profile.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 font-mono text-white px-6 py-4 bg-white/5 border border-white/20 rounded-xl hover:bg-white/10 hover:border-white/40 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300 hover:-translate-y-1 flex-1 min-w-[200px] group"
               >
-                <span className="font-pixel text-2xl font-bold group-hover:scale-110 transition-transform">{'>'}</span>
+                <span className="font-pixel text-2xl font-bold group-hover:scale-110 transition-transform" aria-hidden="true">{'>'}</span>
                 <span className="font-medium tracking-wide">GitHub</span>
               </a>
             </div>

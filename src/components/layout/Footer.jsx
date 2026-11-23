@@ -1,22 +1,15 @@
 /**
  * Footer Component
  * Minimal footer with pixelated separator, copyright and social links
- * Requirements: 6.1, 6.2, 6.3
  */
 
+import { profile } from '../../data/profile';
+
 const socialLinks = [
-  {
-    id: 'github',
-    label: 'GitHub',
-    href: 'https://github.com/Angel-Codes-842',
-    icon: '⌘'
-  },
-  {
-    id: 'linkedin',
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/angel-gómez-b72836209/',
-    icon: '◈'
-  },
+  { id: 'github', label: 'GitHub', href: profile.githubUrl, external: true },
+  { id: 'linkedin', label: 'LinkedIn', href: profile.linkedinUrl, external: true },
+  { id: 'whatsapp', label: 'WhatsApp', href: profile.whatsappUrl, external: true },
+  { id: 'cv', label: 'CV', href: '#cv', external: false },
 ];
 
 export default function Footer() {
@@ -31,21 +24,20 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright text */}
           <p className="font-mono text-sm text-white/60 text-center md:text-left">
-            © {currentYear} Ángel Gómez. Todos los derechos reservados.
+            © {currentYear} {profile.fullName}. Todos los derechos reservados.
           </p>
 
           {/* Social links - adequate touch targets */}
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             {socialLinks.map((link) => (
               <a
                 key={link.id}
                 href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
                 className="font-mono text-sm text-white/60 hover:text-retro-blue hover-jump transition-colors px-2 py-2 min-h-[44px] flex items-center"
                 aria-label={link.label}
               >
-                <span className="mr-1" aria-hidden="true">{link.icon}</span>
                 {link.label}
               </a>
             ))}

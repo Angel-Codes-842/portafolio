@@ -4,7 +4,6 @@ import About from './About';
 
 /**
  * Unit Tests for About Component
- * **Validates: Requirements 3.1, 3.2**
  */
 describe('About', () => {
   it('renders the section heading "Mi enfoque"', () => {
@@ -17,14 +16,22 @@ describe('About', () => {
     expect(screen.getByText('>')).toBeInTheDocument();
   });
 
-  it('displays the developer description about web experiences', () => {
+  it('displays the updated professional summary', () => {
     render(<About />);
-    expect(screen.getByText(/Desarrollo experiencias web limpias, rápidas y con estética retro minimalista\./)).toBeInTheDocument();
+    expect(screen.getByText(/Profesional de TI con 6 años de experiencia comprobable/)).toBeInTheDocument();
   });
 
-  it('displays the tech stack description', () => {
+  it('displays the updated tech stack description', () => {
     render(<About />);
-    expect(screen.getByText(/Trabajo con React, Tailwind, Django, APIs, bases de datos y despliegues modernos\./)).toBeInTheDocument();
+    expect(screen.getByText(/Especializado en Python \(Django, FastAPI, Flask\), React, TypeScript/)).toBeInTheDocument();
+  });
+
+  it('renders the grouped tech stack', () => {
+    render(<About />);
+    expect(screen.getByText('Stack tecnológico')).toBeInTheDocument();
+    expect(screen.getByText('Backend & APIs')).toBeInTheDocument();
+    expect(screen.getByText('DevOps & infraestructura')).toBeInTheDocument();
+    expect(screen.getByText('PostgreSQL 16')).toBeInTheDocument();
   });
 
   it('has the section id "about" for navigation', () => {

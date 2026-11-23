@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Hero from './Hero';
+import { profile } from '../../data/profile';
 
 /**
  * Unit Tests for Hero Component
- * **Validates: Requirements 1.1, 1.2, 1.3, 1.5**
  */
 describe('Hero', () => {
   it('displays the name "Ángel Gómez"', () => {
@@ -17,18 +17,20 @@ describe('Hero', () => {
     expect(screen.getByText('Full-Stack Developer')).toBeInTheDocument();
   });
 
-  it('displays the tagline text', () => {
+  it('displays a short tagline', () => {
     render(<Hero />);
-    expect(screen.getByText(/Creo aplicaciones robustas y mantenibles/)).toBeInTheDocument();
+    expect(screen.getByText(/Construyo sistemas web listos para producción/)).toBeInTheDocument();
   });
 
-  it('displays "Ver Proyectos" button', () => {
+  it('keeps the hero free of repeated role and availability copy', () => {
+    render(<Hero />);
+    expect(screen.queryByText(new RegExp(profile.role))).not.toBeInTheDocument();
+    expect(screen.queryByText(/Disponible para nuevas oportunidades/)).not.toBeInTheDocument();
+  });
+
+  it('displays "Ver Proyectos" and "Contacto" buttons', () => {
     render(<Hero />);
     expect(screen.getByText('Ver Proyectos')).toBeInTheDocument();
-  });
-
-  it('displays "Contacto" button', () => {
-    render(<Hero />);
     expect(screen.getByText('Contacto')).toBeInTheDocument();
   });
 
@@ -36,8 +38,13 @@ describe('Hero', () => {
     render(<Hero />);
     const projectsButton = screen.getByText('Ver Proyectos').closest('a');
     const contactButton = screen.getByText('Contacto').closest('a');
-    
+
     expect(projectsButton).toHaveAttribute('href', '#projects');
     expect(contactButton).toHaveAttribute('href', '#contact');
+  });
+
+  it('links to the CV', () => {
+    render(<Hero />);
+    expect(screen.getByRole('link', { name: /ver currículum/i })).toHaveAttribute('href', profile.cvUrl);
   });
 });

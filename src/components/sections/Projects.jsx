@@ -35,6 +35,7 @@ export default function Projects() {
               techStack={project.techStack}
               demoUrl={project.demoUrl}
               repoUrl={project.repoUrl}
+              badge={project.badge}
             />
           ))}
         </div>

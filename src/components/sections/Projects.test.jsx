@@ -5,30 +5,34 @@ import { projects } from '../../data/projects';
 
 /**
  * Unit Tests for Projects Section
- * **Validates: Requirements 4.1, 4.7**
  */
 describe('Projects', () => {
-  it('renders the correct number of project cards', () => {
+  it('renders one card per project', () => {
     const { container } = render(<Projects />);
-    
-    // Each project card has an h3 for the title
+
     const projectTitles = container.querySelectorAll('h3');
     expect(projectTitles.length).toBe(projects.length);
   });
 
-  it('renders all three required projects', () => {
+  it('renders every project title from the data source', () => {
     render(<Projects />);
-    
-    // Verify all project titles are rendered
-    projects.forEach(project => {
-      expect(screen.getByText(project.title)).toBeInTheDocument();
+
+    projects.forEach((project) => {
+      expect(screen.getAllByText(project.title).length).toBeGreaterThan(0);
     });
+  });
+
+  it('renders the projects introduced from the CV', () => {
+    render(<Projects />);
+
+    expect(screen.getAllByText(/FactuSYS/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/SysTurno/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/POS Multi-Sucursal/).length).toBeGreaterThan(0);
   });
 
   it('applies grid layout classes for responsive design', () => {
     const { container } = render(<Projects />);
-    
-    // Find the grid container
+
     const gridContainer = container.querySelector('.grid');
     expect(gridContainer).toBeTruthy();
     expect(gridContainer.classList.contains('grid-cols-1')).toBe(true);
@@ -37,7 +41,7 @@ describe('Projects', () => {
 
   it('renders section with correct id for navigation', () => {
     const { container } = render(<Projects />);
-    
+
     const section = container.querySelector('section');
     expect(section.id).toBe('projects');
   });

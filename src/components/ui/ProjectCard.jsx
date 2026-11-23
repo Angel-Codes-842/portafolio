@@ -14,7 +14,8 @@ export default function ProjectCard({
   images = [],
   techStack = [],
   demoUrl,
-  repoUrl
+  repoUrl,
+  badge
 }) {
   const imageList = images.length > 0 ? images : (image ? [image] : []);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -62,6 +63,11 @@ export default function ProjectCard({
 
         {/* Image area */}
         <div className="relative overflow-hidden bg-black" style={{ aspectRatio: '16/9' }}>
+          {badge && (
+            <span className="absolute top-2.5 left-2.5 z-20 font-mono text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md bg-black/70 border border-retro-blue/30 text-retro-blue backdrop-blur-sm">
+              {badge}
+            </span>
+          )}
           {imageList.length > 0 ? (
             <>
               <img
@@ -130,8 +136,21 @@ export default function ProjectCard({
               )}
             </>
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="font-pixel text-white/20 text-lg">{title}</span>
+            <div className="w-full h-full flex items-center justify-center bg-[radial-gradient(circle_at_50%_0%,rgba(39,103,245,0.18),transparent_65%)]">
+              <div className="relative w-[78%] rounded-lg border border-white/10 bg-[#0a0a0a]/90 shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden">
+                <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/10 bg-white/[0.03]">
+                  <span className="w-2 h-2 rounded-full bg-red-400/70" aria-hidden="true" />
+                  <span className="w-2 h-2 rounded-full bg-yellow-400/70" aria-hidden="true" />
+                  <span className="w-2 h-2 rounded-full bg-green-400/70" aria-hidden="true" />
+                  <span className="ml-2 font-mono text-[10px] text-white/30 truncate">~/projects/{badge ? 'production' : 'preview'}</span>
+                </div>
+                <div className="p-5 space-y-2.5">
+                  <div className="h-2 w-1/3 rounded bg-retro-blue/60" />
+                  <div className="h-2 w-2/3 rounded bg-white/15" />
+                  <div className="h-2 w-1/2 rounded bg-white/10" />
+                  <div className="pt-3 font-pixel text-lg md:text-xl text-white/70 truncate">{title}</div>
+                </div>
+              </div>
             </div>
           )}
         </div>
